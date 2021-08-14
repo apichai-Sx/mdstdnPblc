@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<header>
+	<title>progress note</title>
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
+<meta charset="UTF-8">
+<link rel="stylesheet" href="mdstdn.css"/>
+<script>
+	function tble(x, y){
+		if(y==null)y=["","problem name","","","",""]
+		if(x.value=="add"){
+			let tbl=x.parentElement;
+			while(tbl.tagName!="TBODY"){tbl=tbl.parentElement}
+			let tbdy=document.createElement("tbody");
+			tbdy.innerHTML='<tr><td><input type="date" value="'+y[0]+'"></input></td><td><input value="'+y[1]+'"></td><td><select onchange="tble(this,null)" ><option hidden>add/remove</option><option value="add">add</option><option value="rmv">remove</option></select></td></tr><tr><td>S:</td><td colspan="2"><textarea style="width:100%">'+y[2]+'</textarea></td></tr><tr><td>O:</td><td colspan="2"><textarea style="width:100%">'+y[3]+'</textarea></td></tr><tr><td>A:</td><td colspan="2"><textarea style="width:100%">'+y[4]+'</textarea></td></tr><tr><td>P:</td><td colspan="2"><textarea style="width:100%">'+y[5]+'</textarea></td></tr>';
+			tbl.parentElement.insertBefore(tbdy,tbl.nextSibling);
+			x.selectedIndex=0;
+			return;
+		}
+		if(x.value=="rmv"){
+			let tbl=x.parentElement;
+			while(tbl.tagName!="TBODY"){tbl=tbl.parentElement};
+			tbl.parentElement.removeChild(tbl);
+			x.selectedIndex=0;
+			return;
+		}
+	}
+	function back(){
+		kystr="iniPTbl";
+		let xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.close();
+				document.write(this.responseText);
+			}
+		  };
+		xhttp.open("POST", "http://localhost:8000", true);
+		xhttp.setRequestHeader("Content-type", "text/plain");
+		xhttp.send(`"next":"initialPlan.html","usrmail":"${document.getElementById("usrmail").value}","id":"${str}"`);
+	}
+	function backup(){
+		let xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				//alert(this.responseText);
+				//document.getElementById("id").value=this.responseText;
+				alert("successful insert/update operation :"+this.responseText);
+			}
+		  };
+		let dta=[];
+		let prgss=document.getElementById("prgss").children;
+		for (let i=0;i<prgss.length;i++){
+			let prg=[];
+			let trs=prgss[i].children;
+			for (let j=0;j<trs.length;j++){
+				tds=trs[j].children;
+				for (let k=0;k<tds.length;k++){
+					if(tds[k].children.length<1)continue;
+					if(tds[k].children[0].tagName=="INPUT"|| tds[k].children[0].tagName=="TEXTAREA")prg.push(tds[k].children[0].value)
+				}
+			}
+			dta.push(prg);
+		}
+		//let id=document.getElementById("id").value;
+		xhttp.open("POST", "http://localhost:8000", true);
+		xhttp.setRequestHeader("Content-type", "text/plain");
+		xhttp.send(`"prgsTble":"${JSON.stringify(dta).replace(/"/g,"'").replace(/\\/g,"\\")}","usrmail":"${document.getElementById("usrmail").value}","idN": "${str}"`);
+	}
+	function shw(x){
+		let dta=JSON.parse(x.replace(/\n/g,"\\n").replace(/&/g,"\&"));//JSON does not allow new line character, so it is replaced with the literal one,"\\n"
+		if(!dta["prgsTble"])return;
+		dta = JSON.parse(dta["prgsTble"].replace(/'(?=[,\]])/g,'"').replace(/(?<=[,\[\s])'/g,'"').replace(/\n/g,"\\n"));
+		for(let i=0;i<dta.length;i++){
+			let slc=document.getElementById("prgss").children[document.getElementById("prgss").children.length-1].children[0].children[2].children[0];
+			slc.value="add";
+			tble(slc,dta[i]);
+			if(i==0){
+				slc.value="rmv";
+				tble(slc,"");
+			}
+			
+		}
+		
+	}
+	function output(){
+		let xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				//window.open("http://localhost:8000/"+this.responseText);
+				//document.getElementById("id").value=this.responseText;
+				alert("your report was sent to your email\nname attachment.pdf, print it and send to medical center");
+			}
+		  };
+		console.log(document.getElementById("usrmail").value);
+		xhttp.open("POST", "http://localhost:8000", true);
+		xhttp.setRequestHeader("Content-type", "text/plain");
+		xhttp.send(`"output":"${str}","usrmail":"${document.getElementById("usrmail").value}"`);
+	}
+</script>
+</header>
+<body>
+<table id="prgss">
+	<tr><td><input type="date"></input></td><td><input value="problem name"></td><td><select onchange="tble(this,null)" ><option hidden>add/remove</option><option value="add">add</option><option value="rmv">remove</option></select></td></tr>
+	<tr>
+		<td>
+			S:
+		</td>
+		<td colspan="2">
+			<textarea style="width:100%"></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			O:
+		</td>
+		<td colspan="2">
+			<textarea style="width:100%"></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			A:
+		</td>
+		<td colspan="2">
+			<textarea style="width:100%"></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			P:
+		</td>
+		<td colspan="2">
+			<textarea style="width:100%"></textarea>
+		</td>
+	</tr>
+</table>
+<div><button onclick="back()">previous</button><button onclick="backup()">save</button>
+<button onclick="output()">make pdf</button>
+</div>
+</body>

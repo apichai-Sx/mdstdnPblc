@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<header>
+	<title>login</title>
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
+<meta charset="UTF-8">
+<script src="glob.js"></script>
+<script >
+	let str="hidden string";
+	kystr="divsn,wrd,staff,senior,age,gender,job,addr,admitDt,stdnName,famli,HN,AN,patient,tbls";
+	function ttry(){
+		let a=document.getElementById("usrname").value;
+		let b=document.getElementById("pwd").value;
+		let xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					/*document.close();
+					document.write(this.responseText);*/
+					//window.location.href=this.responseText;
+					window.open(this.responseText,'_blank');
+					
+				}
+			  };
+			xhttp.open("POST", "http://localhost:8000", true);
+			xhttp.setRequestHeader("Content-type", "text/plain");
+			xhttp.send('"usrname":"'+a+'","password":"'+b+'"');
+	}
+	function logn(){
+		let a=document.getElementById("usrname").value;
+		let b=document.getElementById("pwd").value;
+		let xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					if(this.responseText=="either gmail address or password was wrong"){
+						alert("either gmail address or password was wrong");
+						return;
+					}
+					let obj=JSON.parse(this.responseText);
+					document.write("<button value=\"new\" onclick= gowon(\""+a+"\",this.value)>new</button>");
+					for(let i=0;i<obj.length;i++){
+						document.write("<br><button value="+obj[i].id+" onclick= gowon(\""+a+"\",this.value)>"+obj[i].HN+"</button>");
+					}
+					
+				}
+			  };
+			xhttp.open("POST", "http://localhost:8000", true);
+			xhttp.setRequestHeader("Content-type", "text/plain");
+			xhttp.send('"usr":"'+a+'","passwrd":"'+b+'"');
+	}
+	function gowon(mail,id){//receive email address a.k.a username and id as arguments, not sure is username needed?
+		str=id;//assign id to global variable
+		let xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.close();
+				document.write(this.responseText);
+			}
+		  };
+		xhttp.open("POST", "http://localhost:8000", true);
+		xhttp.setRequestHeader("Content-type", "text/plain");
+		xhttp.send('"next":"mport.html","usrmail":"'+mail+'","id":"'+id+'"');
+	}
+	
+</script>
+</header>
+<body>
+	<br><br><br>
+	gmail address
+	<br>
+	<input id="usrname" ></input>
+	<br>
+	password
+	<br>
+	<input type="password" id="pwd"></input>
+	<br>
+	<button id="logn" onclick="logn()" value="enter">login</button>
+	<br>or<br>
+	<button id="regst" onclick="ttry()">register</button>
+<script>
+	if (window.location.href.search("code=")>-1 && window.location.href.search("scope=")>-1){
+		//let scope=window.location.href.split("code=")[1];
+		let code=window.location.href.split("&scope=")[0].split("code=")[1]
+		alert(code);
+		let xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				/*document.close();
+				document.write(this.responseText);*/
+				//window.location.href=this.responseText;
+				//window.open(this.responseText,'_blank');
+				alert(this.responseText);
+				window.close();
+				
+			}
+		  };
+		xhttp.open("POST", "http://localhost:8000", true);
+		xhttp.setRequestHeader("Content-type", "text/plain");
+		xhttp.send('"code":"'+code+'"');
+		
+	}
+	//alert (str);
+</script>
+</body>
+</html>

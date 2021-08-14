@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+<header>
+	<title>objective</title>
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
+<meta charset="UTF-8">
+<link rel="stylesheet" href="mdstdn.css"/>
+<script>
+	function tble(x,y){//y is the object all inputs get value from
+		if(y==null){
+			y=[];
+			for (i=0;i<20;i++)y.push("");
+			date=new Date();
+			y[0]=date.getFullYear()+"-"+(100+date.getMonth()).toString().slice(1)+"-"+date.getDate();
+		}else{
+			x.value=y[1];
+		}
+		if(x.value=="complete blood count"){
+			let tbl=document.createElement("table");
+			let thd=document.createElement("thead");
+			thd.innerHTML='<tr><td><input type="date" value="'+y[0]+'"></input></td><td>'+x.value+'</td><td><button onclick= tble(this) value="rmv">remove</button></td></tr>';
+			tbl.appendChild(thd);
+			let tbdy=document.createElement("tbody");
+			tbdy.innerHTML='\
+				<tr>\
+					<td></td><td>Hct</td><td><input value="'+y[2]+'"></input></td><td>WBC</td><td><input value="'+y[3]+'"></input></td><td>Plt.</td><td><input value="'+y[7]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>neutrophyle</td><td><input value="'+y[4]+'"></input></td><td>lymphocyte</td><td><input value="'+y[5]+'"></input></td><td>monocyte</td><td><input value="'+y[6]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>etc.</td><td colspan="5"><input style="width:100%" value="'+y[8]+'"></input></td>\
+				</tr>';
+			tbl.appendChild(tbdy);
+			document.getElementById("labIvg").insertBefore(tbl,x);
+			x.selectedIndex=0;
+			return;
+		}
+		if(x.value=="blood chemistry"){
+			let tbl=document.createElement("table");
+			let thd=document.createElement("thead");
+			thd.innerHTML='<tr><td><input type="date" value="'+y[0]+'"></input></td><td>'+x.value+'</td><td><button onclick= tble(this) value="rmv">remove</button></td></tr>';
+			tbl.appendChild(thd);
+			let tbdy=document.createElement("tbody");
+			tbdy.innerHTML='\
+				<tr>\
+					<td></td><td>BUN</td><td><input value="'+y[2]+'"></input></td><td>Cr</td><td><input value="'+y[3]+'"></input></td><td>Na</td><td><input value="'+y[4]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>K</td><td><input value="'+y[5]+'"></input></td><td>HCO3</td><td><input value="'+y[6]+'"></input></td><td>Cl</td><td><input value="'+y[7]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>Ca</td><td><input value="'+y[8]+'"></input></td><td>Mg</td><td><input value="'+y[9]+'"></input></td><td>PO4</td><td><input value="'+y[10]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>etc.</td><td colspan="5"><input style="width:100%" value="'+y[11]+'"></input></td>\
+				</tr>';
+			tbl.appendChild(tbdy);
+			document.getElementById("labIvg").insertBefore(tbl,x);
+			x.selectedIndex=0;
+			return;
+		}
+		if(x.value=="liver function test"){
+			let tbl=document.createElement("table");
+			let thd=document.createElement("thead");
+			thd.innerHTML='<tr><td><input type="date" value="'+y[0]+'"></input></td><td>'+x.value+'</td><td><button onclick= tble(this) value="rmv">remove</button></td></tr>';
+			tbl.appendChild(thd);
+			let tbdy=document.createElement("tbody");
+			tbdy.innerHTML='\
+				<tr>\
+					<td></td><td>globulin</td><td><input value="'+y[2]+'"></input></td><td>albumin</td><td><input value="'+y[3]+'"></input></td><td>alk. phosphatase</td><td><input value="'+y[4]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>total bilirubin</td><td><input value="'+y[5]+'"></input></td><td>direct Bilirubin</td><td><input value="'+y[6]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>SGOT</td><td><input value="'+y[7]+'"></input></td><td>SGPT</td><td><input value="'+y[8]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>etc.</td><td colspan="5"><input style="width:100%" value="'+y[9]+'"></input></td>\
+				</tr>';
+			tbl.appendChild(tbdy);
+			document.getElementById("labIvg").insertBefore(tbl,x);
+			x.selectedIndex=0;
+			return;
+		}
+		if(x.value=="Urine Analysis"){
+			let tbl=document.createElement("table");
+			let thd=document.createElement("thead");
+			thd.innerHTML='<tr><td><input type="date" value="'+y[0]+'"></input></td><td>'+x.value+'</td><td><button onclick= tble(this) value="rmv">remove</button></td></tr>';
+			tbl.appendChild(thd);
+			let tbdy=document.createElement("tbody");
+			tbdy.innerHTML='\
+				<tr>\
+					<td></td><td>spgr</td><td><input value="'+y[2]+'"></input></td><td>color</td><td><input value="'+y[3]+'"></input></td><td>turbidity</td><td><input value="'+y[4]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>protein</td><td><input value="'+y[5]+'"></input></td><td>blood</td><td><input value="'+y[6]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>RBC</td><td><input value="'+y[7]+'"></input></td><td>WBC</td><td><input value="'+y[8]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>etc.</td><td colspan="5"><input style="width:100%" value="'+y[9]+'"></input></td>\
+				</tr>';
+			tbl.appendChild(tbdy);
+			document.getElementById("labIvg").insertBefore(tbl,x);
+			x.selectedIndex=0;
+			return;
+		}
+		if(x.value=="stool exam"){
+			let tbl=document.createElement("table");
+			let thd=document.createElement("thead");
+			thd.innerHTML='<tr><td><input type="date" value="'+y[0]+'"></input></td><td>'+x.value+'</td><td><button onclick= tble(this) value="rmv">remove</button></td></tr>';
+			tbl.appendChild(thd);
+			let tbdy=document.createElement("tbody");
+			tbdy.innerHTML='\
+				<tr>\
+					<td></td><td>color</td><td><input value="'+y[2]+'"></input></td><td>consistency</td><td><input value="'+y[3]+'"></input></td><td>occount blood test</td><td><input value="'+y[4]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>RBC</td><td><input value="'+y[5]+'"></input></td><td>WBC</td><td><input value="'+y[6]+'"></input></td><td>parasite</td><td><input value="'+y[7]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>etc.</td><td colspan="5"><input style="width:100%" value="'+y[8]+'"></input></td>\
+				</tr>';
+			tbl.appendChild(tbdy);
+			document.getElementById("labIvg").insertBefore(tbl,x);
+			x.selectedIndex=0;
+			return;
+		}
+		if(x.value=="thyroid function test"){
+			let tbl=document.createElement("table");
+			let thd=document.createElement("thead");
+			thd.innerHTML='<tr><td><input type="date" value="'+y[0]+'"></input></td><td>'+x.value+'</td><td><button onclick= tble(this) value="rmv">remove</button></td></tr>';
+			tbl.appendChild(thd);
+			let tbdy=document.createElement("tbody");
+			tbdy.innerHTML='\
+				<tr>\
+					<td></td><td>TSH</td><td><input value="'+y[2]+'"></input></td><td>T3</td><td><input value="'+y[3]+'"></input></td><td>T4</td><td><input value="'+y[4]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>Free T4</td><td><input value="'+y[5]+'"></input></td><td>thyroglobulin</td><td><input value="'+y[6]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>etc.</td><td colspan="5"><input style="width:100%" value="'+y[7]+'"></input></td>\
+				</tr>';
+			tbl.appendChild(tbdy);
+			document.getElementById("labIvg").insertBefore(tbl,x);
+			x.selectedIndex=0;
+			return;
+		}
+		if(x.value=="immunological examination"){
+			let tbl=document.createElement("table");
+			let thd=document.createElement("thead");
+			thd.innerHTML='<tr><td><input type="date" value="'+y[0]+'"></input></td><td>'+x.value+'</td><td><button onclick= tble(this) value="rmv">remove</button></td></tr>';
+			tbl.appendChild(thd);
+			let tbdy=document.createElement("tbody");
+			tbdy.innerHTML='\
+				<tr>\
+					<td></td><td>HBsAg</td><td><input value="'+y[2]+'"></input></td><td>HBcAg</td><td><input value="'+y[3]+'"></input></td><td>anti-HBS</td><td><input value="'+y[4]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>anti-HBc</td><td><input value="'+y[5]+'"></input></td><td>anti-HCV</td><td><input value="'+y[6]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>anti-HIV</td><td><input value="'+y[7]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>etc.</td><td colspan="5"><input style="width:100%" value="'+y[8]+'"></input></td>\
+				</tr>';
+			tbl.appendChild(tbdy);
+			document.getElementById("labIvg").insertBefore(tbl,x);
+			x.selectedIndex=0;
+			return;
+		}
+		if(x.value=="tumor marker"){
+			let tbl=document.createElement("table");
+			let thd=document.createElement("thead");
+			thd.innerHTML='<tr><td><input type="date" value="'+y[0]+'"></input></td><td>'+x.value+'</td><td><button onclick= tble(this) value="rmv">remove</button></td></tr>';
+			tbl.appendChild(thd);
+			let tbdy=document.createElement("tbody");
+			tbdy.innerHTML='\
+				<tr>\
+					<td></td><td>CA19-9</td><td><input value="'+y[2]+'"></input></td><td>CA15-3</td><td><input value="'+y[3]+'"></input></td><td>CEA</td><td><input value="'+y[4]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>AFP</td><td><input value="'+y[5]+'"></input></td><td>PSA</td><td><input value="'+y[6]+'"></input></td><td>CA125</td><td><input value="'+y[7]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>etc.</td><td colspan="5"><input style="width:100%" value="'+y[8]+'"></input></td>\
+				</tr>';
+			tbl.appendChild(tbdy);
+			document.getElementById("labIvg").insertBefore(tbl,x);
+			x.selectedIndex=0;
+			return;
+		}
+		if(x.value=="arterial blood gas"){
+			let tbl=document.createElement("table");
+			let thd=document.createElement("thead");
+			thd.innerHTML='<tr><td><input type="date" value="'+y[0]+'"></input></td><td>'+x.value+'</td><td><button onclick= tble(this) value="rmv">remove</button></td></tr>';
+			tbl.appendChild(thd);
+			let tbdy=document.createElement("tbody");
+			tbdy.innerHTML='\
+				<tr>\
+					<td></td><td>pO2</td><td><input value="'+y[2]+'"></input></td><td>pCO3</td><td><input value="'+y[3]+'"></input></td><td>O2sat</td><td><input value="'+y[4]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>pH</td><td><input value="'+y[5]+'"></input></td><td>base excess</td><td><input value="'+y[6]+'"></input></td><td>Hct</td><td><input value="'+y[7]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>etc.</td><td colspan="5"><input style="width:100%" value="'+y[8]+'"></input></td>\
+				</tr>';
+			tbl.appendChild(tbdy);
+			document.getElementById("labIvg").insertBefore(tbl,x);
+			x.selectedIndex=0;
+			return;
+		}
+		if(x.value=="fluid profile"){
+			let tbl=document.createElement("table");
+			let thd=document.createElement("thead");
+			thd.innerHTML='<tr><td><input type="date" value="'+y[0]+'"></input></td><td>'+x.value+'</td><td><button onclick= tble(this) value="rmv">remove</button></td></tr>';
+			tbl.appendChild(thd);
+			let tbdy=document.createElement("tbody");
+			tbdy.innerHTML='\
+				<tr>\
+					<td></td><td>specimen</td><td><input value="'+y[2]+'"></input></td><td>WBC</td><td><input value="'+y[3]+'"></input></td><td>RBC</td><td><input value="'+y[4]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>pH</td><td><input value="'+y[5]+'"></input></td><td>protein</td><td><input value="'+y[6]+'"></input></td><td>sugar</td><td><input value="'+y[7]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>write stain</td><td><input value="'+y[8]+'"></input></td><td>Gram stain</td><td><input value="'+y[9]+'"></input></td><td>AFB</td><td><input value="'+y[10]+'"></input></td>\
+				</tr><tr>\
+					<td></td><td>etc.</td><td colspan="5"><input style="width:100%" value="'+y[11]+'"></input></td>\
+				</tr>';
+			tbl.appendChild(tbdy);
+			document.getElementById("labIvg").insertBefore(tbl,x);
+			x.selectedIndex=0;
+			return;
+		}
+		if(x.value=="plain film"){
+			if(y[2]=="")y[2]="contrast/ technique?";
+			if(y[3]=="")y[3]="region?";
+			let tbl=document.createElement("table");
+			let thd=document.createElement("thead");
+			thd.innerHTML='<tr><td><input type="date" value="'+y[0]+'"></input></td><td>plain film</td><td><input value="'+y[2]+'"></input></td><td><input value="'+y[3]+'"></input></td><td><button onclick= tble(this) value="rmv">remove</button></td></tr>';
+			tbl.appendChild(thd);
+			let tbdy=document.createElement("tbody");
+			tbdy.innerHTML='\
+				<tr>\
+					<td></td><td>finding</td>\
+					<td colspan="5"><textarea style="width:100%">'+y[4]+'</textarea></td>\
+				</tr>';
+			tbl.appendChild(tbdy);
+			document.getElementById("imgIg").insertBefore(tbl,x);
+			x.selectedIndex=0;
+			return;
+		}
+		if(x.value=="CT"){
+			if(y[2]=="")y[2]="contrast/ technique?";
+			if(y[3]=="")y[3]="region?";
+			let tbl=document.createElement("table");
+			let thd=document.createElement("thead");
+			thd.innerHTML='<tr><td><input type="date" value="'+y[0]+'"></input></td><td>CT</td><td><input value="'+y[2]+'"></input></td><td><input value="'+y[3]+'"></input></td><td><button onclick= tble(this) value="rmv">remove</button></td></tr>';
+			tbl.appendChild(thd);
+			let tbdy=document.createElement("tbody");
+			tbdy.innerHTML='\
+				<tr>\
+					<td></td><td>finding</td>\
+					<td colspan="5"><textarea style="width:100%" value="'+y[4]+'"></textarea></td>\
+				</tr>';
+			tbl.appendChild(tbdy);
+			document.getElementById("imgIg").insertBefore(tbl,x);
+			x.selectedIndex=0;
+			return;
+		}
+		if(x.value=="MRI"){
+			if(y[2]=="")y[2]="contrast/ technique?";
+			if(y[3]=="")y[3]="region?";
+			let tbl=document.createElement("table");
+			let thd=document.createElement("thead");
+			thd.innerHTML='<tr><td><input type="date" value="'+y[0]+'"></input></td><td>MRI</td><td><input value="'+y[2]+'"></input></td><td><input value="'+y[3]+'"></input></td><td><button onclick= tble(this) value="rmv">remove</button></td></tr>';
+			tbl.appendChild(thd);
+			let tbdy=document.createElement("tbody");
+			tbdy.innerHTML='\
+				<tr>\
+					<td></td><td>finding</td>\
+					<td colspan="5"><textarea style="width:100%" value="'+y[4]+'"></textarea></td>\
+				</tr>';
+			tbl.appendChild(tbdy);
+			document.getElementById("imgIg").insertBefore(tbl,x);
+			x.selectedIndex=0;
+			return;
+		}
+		if(x.value=="ultrasound"){
+			if(y[2]=="")y[2]="contrast/ technique?";
+			if(y[3]=="")y[3]="region?";
+			let tbl=document.createElement("table");
+			let thd=document.createElement("thead");
+			thd.innerHTML='<tr><td><input type="date" value="'+y[0]+'"></input></td><td>ultrasound</td><td><input value="'+y[2]+'"></input></td><td><input value="'+y[3]+'"></input></td><td><button onclick= tble(this) value="rmv">remove</button></td></tr>';
+			tbl.appendChild(thd);
+			let tbdy=document.createElement("tbody");
+			tbdy.innerHTML='\
+				<tr>\
+					<td></td><td>finding</td>\
+					<td colspan="5"><textarea style="width:100%" >'+y[4]+'</textarea></td>\
+				</tr>';
+			tbl.appendChild(tbdy);
+			document.getElementById("imgIg").insertBefore(tbl,x);
+			x.selectedIndex=0;
+			return;
+		}
+		if(x.value=="special study" || x.value==""){
+			if(y[2]=="")y[2]="contrast/ technique?";
+			if(y[3]=="")y[3]="region?";
+			let tbl=document.createElement("table");
+			let thd=document.createElement("thead");
+			thd.innerHTML='<tr><td><input type="date" value="'+y[0]+'"></input></td><td></td><td><input value="'+y[2]+'"></input></td><td><input value="'+y[3]+'"></input></td><td><button onclick= tble(this) value="rmv">remove</button></td></tr>';
+			tbl.appendChild(thd);
+			let tbdy=document.createElement("tbody");
+			tbdy.innerHTML='\
+				<tr>\
+					<td></td><td>finding</td>\
+					<td colspan="5"><textarea style="width:100%">'+y[4]+'</textarea></td>\
+				</tr>';
+			tbl.appendChild(tbdy);
+			document.getElementById("imgIg").insertBefore(tbl,x);
+			x.selectedIndex=0;
+			return;
+		}
+		
+		else{
+			x=x.parentElement;
+			while(x.tagName!="TABLE"){
+				x=x.parentElement;
+			}
+			x.parentElement.removeChild(x);
+		}
+	}
+	function nxt(){
+		kystr="assessTbl";
+		let xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.close();
+				document.write(this.responseText);
+			}
+		  };
+		xhttp.open("POST", "http://localhost:8000", true);
+		xhttp.setRequestHeader("Content-type", "text/plain");
+		xhttp.send(`"next":"assessment.html","usrmail":"${document.getElementById("usrmail").value}","id":"${str}"`);
+	}
+
+	function back(){
+		kystr="CC,PI,PH,PsnH,HdNk,CVS,RS,GI,KUB,Repr,musc,Neuro";
+		let xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.close();
+				document.write(this.responseText);
+			}
+		  };
+		xhttp.open("POST", "http://localhost:8000", true);
+		xhttp.setRequestHeader("Content-type", "text/plain");
+		xhttp.send(`"next":"subjective.html","usrmail":"${document.getElementById("usrmail").value}","id":"${str}"`);
+	}
+	function backup(){
+			let xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					//alert(this.responseText);
+					//document.getElementById("id").value=this.responseText;
+					alert("successful insert/update operation :"+this.responseText);
+				}
+			  };
+			let GA=document.getElementById("GA").value;
+			let BP=document.getElementById("BP").value;
+			let PR=document.getElementById("PR").value;
+			let RR=document.getElementById("RR").value;
+			let BT=document.getElementById("BT").value;
+			let HEENT=document.getElementById("HEENT").value;
+			let cardiovascularEx=document.getElementById("cardiovascularEx").value;
+			let respiratoryEx=document.getElementById("respiratoryEx").value;
+			let abdomnEx=document.getElementById("abdomnEx").value;
+			let genitourinaryEx=document.getElementById("genitourinaryEx").value;
+			let musculoskeletnEx=document.getElementById("musculoskeletnEx").value;
+			let neuroexam=document.getElementById("neuroexam").value;
+			let dta=[[],[]];
+		let ivg= document.getElementById("labIvg").children;
+		for(let i=0;i<ivg.length;i++){
+			if (ivg[i].tagName=="SELECT")break;
+			let lst=[];
+			let tr=ivg[i].children[0].children;
+			for(let j=0;j<tr.length;j++){
+				let tds=tr[j].children;
+				for(let k=0;k<tds.length;k++){
+					if(tds[k].children.length>0 && tds[k].children[0].tagName=="INPUT")lst.push(tds[k].children[0].value);
+					if(tds[k].children.length==0)lst.push(tds[k].innerHTML);
+				}
+			}
+			tr=ivg[i].children[1].children;
+			for(let j=0;j<tr.length;j++){
+				let tds=tr[j].children;
+				for(let k=0;k<tds.length;k++){
+					if(tds[k].children.length>0 && tds[k].children[0].tagName=="INPUT")lst.push(tds[k].children[0].value);
+				}
+			}
+			dta[0].push(lst)
+		}
+		let img= document.getElementById("imgIg").children;
+		for(let i=0;i<img.length;i++){
+			if (img[i].tagName=="SELECT")break;
+			let lst=[];
+			let tr=img[i].children[0].children;
+			for(let j=0;j<tr.length;j++){
+				let tds=tr[j].children;
+				for(let k=0;k<tds.length;k++){
+					if(tds[k].children.length>0 && tds[k].children[0].tagName=="INPUT")lst.push(tds[k].children[0].value);
+					if(tds[k].children.length==0)lst.push(tds[k].innerHTML);
+				}
+			}
+			tr=img[i].children[1].children;
+			for(let j=0;j<tr.length;j++){
+				let tds=tr[j].children;
+				for(let k=0;k<tds.length;k++){
+					if(tds[k].children.length>0 && tds[k].children[0].tagName=="TEXTAREA")lst.push(tds[k].children[0].value);
+				}
+			}
+			dta[1].push(lst)
+		}
+		console.log(JSON.stringify(dta));
+				
+			xhttp.open("POST", "http://localhost:8000", true);
+			xhttp.setRequestHeader("Content-type", "text/plain");
+			xhttp.send(`"GA":"${GA}","BP":"${BP}","PR":"${PR}","RR":"${RR}","BT":"${BT}","HEENT":"${HEENT}","cardiovascularEx":"${cardiovascularEx}","respiratoryEx":"${respiratoryEx}","abdomnEx":"${abdomnEx}","genitourinaryEx":"${genitourinaryEx}","musculoskeletnEx":"${musculoskeletnEx}","neuroexam":"${neuroexam}", "objTbl":"${JSON.stringify(dta).replace(/"/g,"'")}","usrmail":"${document.getElementById("usrmail").value}","idN": "${str}"`);
+		}
+		
+	function shw(x){
+		let dta=JSON.parse(x.replace(/\n/g,"\\n").replace(/&/g,"\&"));//JSON does not allow new line character, so it is replaced with the literal one,"\\n"
+		let kys=Object.keys(dta);
+		for (let i=0;i<kys.length;i++){
+			ky=kys[i];
+			if(ky=="objTbl"){
+				let tbls = JSON.parse(dta[ky].replace(/'(?=[,\]])/g,'"').replace(/(?<=[,\[\s])'/g,'"').replace(/\n/g,"\\n"));// the list contains bunch of objects, each of them represent one table
+				let lbSlc=document.getElementById("lbSlc");
+				for(let j=0;j<tbls[0].length;j++){
+					tble(lbSlc,tbls[0][j])
+				}
+				let imgSlc=document.getElementById("imgSlc");
+				for(let k=0;k<tbls[1].length;k++){
+					tble(imgSlc,tbls[1][k])
+				}
+			}
+			else {
+				document.getElementById(ky).value=dta[ky];
+			}
+		}
+	}
+</script>
+</header>
+<body>
+Physical Examination<br>
+general appearance  <input id="GA" style="width:70%"></input><br>
+Vital Sign<br>
+blood pressure <input id ="BP" style="width:4%"></input> mmHg.  pulse rate <input id="PR" style="width:4%"></input> beat/min. respiratory rate <input id="RR" style="width:4%"></input> breath/min. body temperature <input id="BT" style="width:4%"></input> degree celseus<br>
+<table style="width:80%">
+	<tr><td>HEENT</td><td style="width:70%"> <textarea id="HEENT" style="width:100%"></textarea></td></tr>
+	<tr><td>cardiovascular</td><td><textarea id="cardiovascularEx" style="width:100%"></textarea></td></tr>
+	<tr><td>respiratory</td><td><textarea id="respiratoryEx" style="width:100%"></textarea></td></tr>
+	<tr><td>abdomen</td><td><textarea id="abdomnEx" style="width:100%"></textarea></td></tr>
+	<tr><td>genitourinary</td><td><textarea id="genitourinaryEx" style="width:100%"></textarea></td></tr>
+	<tr><td>musculoskeleton</td><td><textarea id="musculoskeletnEx" style="width:100%"></textarea></td></tr>
+	<tr><td>neurological examination</td><td><textarea id="neuroexam" style="width:100%"></textarea></td></tr>
+</table>
+<br><h2>laboratory investigation</h2>
+<div id="labIvg">
+<select onchange="tble(this,null)" id="lbSlc">
+	<option hidden value="addLab">Laboratory Investigation</option>
+	<option value="complete blood count">complete blood count</option>
+	<option value="blood chemistry">blood chemistry</option>
+	<option value="liver function test">liver function test</option>
+	<option value="Urine Analysis">UA</option>
+	<option value="stool exam">stool exam</option>
+	<option value="thyroid function test">thyroid function test</option>
+	<option value="immunological examination">immunologic</option>
+	<option value="tumor marker">tumor marker</option>
+	<option value="arterial blood gas">arterial blood gas</option>
+	<option value="fluid profile">fluid profile</option>
+</select>
+</div>
+<br><h2>diagnostic imaging</h2>
+<div id="imgIg">
+<select onchange="tble(this, null)" id="imgSlc" >
+	<option hidden value="addImg">diagnostic imaging</option>
+	<option value="plain film">plain film</option>
+	<option value="CT">CT</option>
+	<option value="MRI">MRI</option>
+	<option value="ultrasound">ultrasound</option>
+	<option value="special study">special study</option>
+</select>
+</div>
+
+<div><button onclick="back()">previous</button><button onclick="backup()">save</button><button onclick="nxt()">next</button>
+</div>

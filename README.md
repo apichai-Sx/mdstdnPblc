@@ -1,2 +1,3 @@
-# mdstdnPblc
-web application used for medical students to report to their staff a patient's clinical information
+# mdstdn
+medical student report
+This web application use no extra framworks other than javascript on node js natively to make it's own API because I think 

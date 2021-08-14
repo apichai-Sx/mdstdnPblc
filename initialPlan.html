@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<header>
+	<title>initial plan</title>
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
+<meta charset="UTF-8">
+<link rel="stylesheet" href="mdstdn.css"/>
+<script>
+	function tble(x, y){
+		if(x.value=="add"){
+			let tbl=x.parentElement;
+			while(tbl.tagName!="TBODY"){tbl=tbl.parentElement}
+			let tbdy=document.createElement("tbody");
+			tbdy.innerHTML='<tr><td></td><td><input value="'+y[0]+'"></input></td><td><select onchange=tble(this,["",""]) ><option hidden>add/remove</option><option value="add">add</option><option value="rmv">remove</option></select></td></tr><tr><td>reason</td><td colspan="3"><textarea style="width:100%">'+y[1]+'</textarea></td></tr>';
+			tbl.parentElement.insertBefore(tbdy,tbl.nextSibling);
+			x.selectedIndex=0;
+			return;
+		}
+		if(x.value=="rmv"){
+			let tbl=x.parentElement;
+			while(tbl.tagName!="TBODY"){tbl=tbl.parentElement};
+			tbl.parentElement.removeChild(tbl);
+			x.selectedIndex=0;
+			return;
+		}
+	}
+	function nxt(){
+		kystr="prgsTble";
+		let xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.close();
+				document.write(this.responseText);
+			}
+		  };
+		xhttp.open("POST", "http://localhost:8000", true);
+		xhttp.setRequestHeader("Content-type", "text/plain");
+		xhttp.send(`"next":"progressnote.html","usrmail":"${document.getElementById("usrmail").value}","id":"${str}"`);
+	}
+
+	function back(){
+		kystr="assessTbl";
+		let xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.close();
+				document.write(this.responseText);
+			}
+		  };
+		xhttp.open("POST", "http://localhost:8000", true);
+		xhttp.setRequestHeader("Content-type", "text/plain");
+		xhttp.send(`"next":"assessment.html","usrmail":"${document.getElementById("usrmail").value}","id":"${str}"`);
+	}
+	function backup(){
+			let xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					//alert(this.responseText);
+					//document.getElementById("id").value=this.responseText;
+					alert("successful insert/update operation :"+this.responseText);
+				}
+			  };
+			let dta=[[],[]];
+			let ivgs=document.getElementById("ivg").children;
+			for (let i=0;i<ivgs.length;i++){
+				let ivg=[];
+				let trs=ivgs[i].children;
+				for (let j=0;j<trs.length;j++){
+					tds=trs[j].children;
+					for (let k=0;k<tds.length;k++){
+						if(tds[k].children.length<1)continue;
+						if(tds[k].children[0].tagName=="INPUT"|| tds[k].children[0].tagName=="TEXTAREA")ivg.push(tds[k].children[0].value)
+					}
+				}
+				dta[0].push(ivg);
+			}
+			let txs=document.getElementById("tx").children;
+			for (let i=0;i<txs.length;i++){
+				let tx=[];
+				let trs=txs[i].children;
+				for (let j=0;j<trs.length;j++){
+					tds=trs[j].children;
+					for (let k=0;k<tds.length;k++){
+						if(tds[k].children.length<1)continue;
+						if(tds[k].children[0].tagName=="INPUT" || tds[k].children[0].tagName=="TEXTAREA")tx.push(tds[k].children[0].value)
+					}
+				}
+				dta[1].push(tx);
+			}
+			//let id=document.getElementById("id").value;
+			xhttp.open("POST", "http://localhost:8000", true);
+			xhttp.setRequestHeader("Content-type", "text/plain");
+			xhttp.send(`"iniPTbl":"${JSON.stringify(dta).replace(/"/g,"'").replace(/\\/g,"\\")}","usrmail":"${document.getElementById("usrmail").value}","idN": "${str}"`);
+		}
+	function shw(x){
+		let dta=JSON.parse(x.replace(/\n/g,"\\n").replace(/&/g,"\&"));//JSON does not allow new line character, so it is replaced with the literal one,"\\n"
+		if(!dta["iniPTbl"])return;
+		dta = JSON.parse(dta["iniPTbl"].replace(/'(?=[,\]])/g,'"').replace(/(?<=[,\[\s])'/g,'"').replace(/\n/g,"\\n"));
+		for(let i=0;i<dta[0].length;i++){
+			let slc=document.getElementById("ivg").children[document.getElementById("ivg").children.length-1].children[0].children[2].children[0];
+			slc.value="add";
+			tble(slc,dta[0][i]);
+			if(i==0){
+				slc.value="rmv";
+				tble(slc,"");
+			}
+			
+		}
+		for(let i=0;i<dta[1].length;i++){
+			let slc=document.getElementById("tx").children[document.getElementById("tx").children.length-1].children[0].children[2].children[0];
+			slc.value="add";
+			tble(slc,dta[1][i]);
+			if(i==0){
+				slc.value="rmv";
+				tble(slc,"");
+			}
+			
+		}
+		
+	}
+	
+</script>
+</header>
+<body>
+Initial Plan<br>
+For Investigation
+<table id="ivg" style="width:80%">
+	<tr>
+		<td><label></label>
+		</td>
+		<td>
+			<input>
+			</input>
+		</td>
+		<td>
+			<select onchange="tble(this)" ><option hidden>add/remove</option><option value="add">add</option><option value="rmv">remove</option></select>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<label>reason<label>
+		</td>
+		<td colspan="3">
+			<textarea style="width:100%">expected result, what to do with it, and what to do if otherwises</textarea>
+		</td>
+	</tr>
+</table>
+For Treatment
+<table id="tx" style="width:80%">
+	<tr>
+		<td><label></label>
+		</td>
+		<td>
+			<input>
+			</input>
+		</td>
+		<td>
+			<select onchange="tble(this)" ><option hidden>add/remove</option><option value="add">add</option><option value="rmv">remove</option></select>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<label>aim&nbsp&nbsp&nbsp&nbsp<label>
+		</td>
+		<td colspan="3">
+			<textarea style="width:100%">what condition intended to treat</textarea>
+		</td>
+	</tr>
+</table>
+<div><button onclick="back()">previous</button><button onclick="backup()">save</button><button onclick="nxt()">next</button>
+</div>

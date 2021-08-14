@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<header>
+	<title>medical student report</title>
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
+<meta charset="UTF-8">
+
+<link type="text/css" rel="stylesheet" href="mdstdn.css"/>
+</header>
+<body>
+	<script>
+		function nxt(){
+			kystr="CC,PI,PH,PsnH,HdNk,CVS,RS,GI,KUB,Repr,musc,Neuro";
+			let xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					document.close();
+					document.write(this.responseText);
+					
+				}
+			  };
+			xhttp.open("POST", "http://localhost:8000", true);
+			xhttp.setRequestHeader("Content-type", "text/plain");
+			xhttp.send(`"next":"subjective.html","usrmail":"${document.getElementById("usrmail").value}","id":"${str}"`);
+		}
+		function backup(){
+			let xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					alert("successful insert/update operation :"+this.responseText);
+				}
+			  };
+			let divsn=document.getElementById("divsn").value;
+			let wrd=document.getElementById("wrd").value;
+			let staff=document.getElementById("staff").value;
+			let senior=document.getElementById("senior").value;
+			let age=document.getElementById("age").value;
+			let gender=document.getElementById("gender").value;
+			let job=document.getElementById("job").value;
+			let addr=document.getElementById("addr").value;
+			let admitDt=document.getElementById("admitDt").value;
+			let stdnName=document.getElementById("stdnName").value;
+			let famli=document.getElementById("famli").value;
+			let HN=document.getElementById("HN").value;
+			let AN=document.getElementById("AN").value;
+			let patient=document.getElementById("patient").value;
+			let tbls=[];
+			let trs=document.getElementById("prblms").children[0].children
+			for (let i=1;i<trs.length;i++){
+				let dta=[];
+				let tds=trs[i].children;
+				for(let j=0;j<tds.length;j++){
+					if(trs[i].children[j].children.length<1)continue;
+					if(trs[i].children[j].children[0].tagName=="INPUT"|| trs[i].children[j].children[0].tagName=="TEXTAREA")dta.push(trs[i].children[j].children[0].value);
+				}
+				tbls.push(dta);
+			}
+			xhttp.open("POST", "http://localhost:8000", true);
+			xhttp.setRequestHeader("Content-type", "text/plain");
+			xhttp.send(`"divsn":"${divsn}","wrd":"${wrd}","staff":"${staff}","senior":"${senior}","age":"${age}","gender":"${gender}","job":"${job}","addr":"${addr}","admitDt":"${admitDt}","stdnName":"${stdnName}","famli":"${famli}","HN":"${HN}","AN":"${AN}","patient":"${patient}","tbls":"${JSON.stringify(tbls).replace(/"/g,"'")}","usrmail":"${document.getElementById("usrmail").value}","idN": "${str}"`);
+		}
+	function tble(x, y){
+		if(y==null)y=["","","","",""];
+		if(x.value=="add"){
+			let tbl=x.parentElement;
+			while(tbl.tagName!="TR"){tbl=tbl.parentElement}
+			let tr=document.createElement("TR");
+			tr.innerHTML='<td><input type="date" value="'+y[0]+'"></input></td><td><textarea style="width:100%">'+y[1]+'</textarea></td><td><input type ="date" value="'+y[2]+'"></input></td><td><textarea>'+y[3]+'</textarea></td><td><input type="date" value="'+y[4]+'"></input></td><td><select id="tble" onChange=tble(this,null) ><option selected hidden>add/remove</option><option value="add" >add</option><option value="rmv">remove</option></select></td>';
+			tbl.parentElement.insertBefore(tr,tbl.nextSibling);
+			x.selectedIndex=0;
+			return;
+		}
+		if(x.value=="rmv"){
+			let tbl=x.parentElement;
+			while(tbl.tagName!="TR"){tbl=tbl.parentElement};
+			tbl.parentElement.removeChild(tbl);
+			x.selectedIndex=0;
+			return;
+		}
+	}
+		function shw(x){
+			let dta=JSON.parse(x.replace(/\n/g,"\\n").replace(/&/g,"\&"));//JSON does not allow new line character, so it is replaced with the literal one,"\\n"
+			let kys=Object.keys(dta);
+			for (let i=0;i<kys.length;i++){
+				ky=kys[i];
+				if(ky=="tbls"){
+					let tbls = JSON.parse(dta["tbls"].replace(/'(?=[,\]])/g,'"').replace(/(?<=[,\[\s])'/g,'"').replace(/\n/g,"\\n"));
+					
+					for (let j=0;j<tbls.length;j++){
+						let slc=document.getElementById("prblms").children[0].children[1].children[document.getElementById("prblms").children[0].children[1].children.length-1].children[0];
+						slc.value="add";
+						tble(slc, tbls[j]);
+						if(j==0){
+							slc.value="rmv"
+							tble(slc,"")
+						}
+						
+					}
+				}
+				else {
+					document.getElementById(ky).value=dta[ky];
+				}
+			}
+		}
+		
+	</script>
+
+	
+		<table >
+		<tr><td>Division</td><td><input id="divsn" type="text"></input></td><td>Ward</td><td><input id="wrd"  type="text"></input></td></tr>
+		<tr><td>Attending Staff</td><td><input id="staff" type="text"></input></td><td>Residence /Intern</td><td><input id="senior" type="text"></input></td></tr>
+		<tr><td>Patient Name</td><td><input id="patient" type="text"></input></td><td>age (year)</td><td><input id="age" type="text"></input></td></tr>
+		<tr><td>gender</td><td><input id="gender" type="text"></input></td><td>occupation</td><td><input id="job" type="text"></input></td></tr>
+		<tr><td>address</td><td colspan = "3" ><input id="addr" type="text" style="width:100%" ></input></td></tr>
+		
+		<tr><td>HN</td><td><input id="HN" type="text"></input></td><td>AN</td><td><input id="AN" type="text"></input></td></tr>
+		<tr><td>Date of Admission</td><td><input id="admitDt" type="date"></input></td><td>med. student name</td><td><input id="stdnName" type="text"></input></td></tr>
+		<tr><td>family members</td><td colspan = "3"><input id="famli" type="text" ></input></td></tr>
+		</table>
+		<br>
+	Problem List
+	
+	<table id="prblms">
+		<tr id="head"><th style="width:10%">aproximated date of onset</th><th style="width:30%">active problems</th><th style="width:10%">date problem recorded</th><th style="width:30%">-inactive problem<br>-treatment</th><th style="width:10%">date resolved</th><th></th></tr>
+		<tr id="bdy"><td><input type="date"></input></td><td><textarea style="width:100%"></textarea></td><td><input type ="date"></input></td><td><textarea></textarea></td><td><input type="date"></input></td><td><select id="tble" onChange="tble(this,null)" ><option selected hidden>add/remove</option><option value="add" >add</option><option value="rmv">remove</option></select></td></tr>
+	</table>
+	<div><button onclick= "backup()">save</button><button onclick= "nxt()">next</button>
+</div>
+
+

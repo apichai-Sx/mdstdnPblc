@@ -1,0 +1,30 @@
+{
+  "name": "mdstdn",
+  "version": "1.0.0",
+  "description": "learn to work with nodejs git and github",
+  "main": "index.js",
+  "scripts": {
+    "test": "exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apichai-Sx/mdstdn.git"
+  },
+  "keywords": [
+    "medical",
+    "record",
+    "medical",
+    "report"
+  ],
+  "author": "apichai",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/apichai-Sx/mdstdn/issues"
+  },
+  "homepage": "https://github.com/apichai-Sx/mdstdn#readme",
+  "dependencies": {
+    "googleapis": "^76.0.0",
+    "mongodb": "^3.6.9",
+    "nodemailer": "^6.6.3"
+  }
+}

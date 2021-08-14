@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<header>
+	<title>subjective</title>
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
+<meta charset="UTF-8">
+<link rel="stylesheet" href="mdstdn.css"/>
+<script>
+	function nxt(){
+		kystr="GA,BP,PR,RR,BT,HEENT,cardiovascularEx,respiratoryEx,abdomnEx,genitourinaryEx,musculoskeletnEx,neuroexam,objTbl";
+		let xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.close();
+				document.write(this.responseText);
+			}
+		  };
+		xhttp.open("POST", "http://localhost:8000", true);
+		xhttp.setRequestHeader("Content-type", "text/plain");
+		xhttp.send(`"next":"objective.html","usrmail":"${document.getElementById("usrmail").value}","id":"${str}"`);
+	}
+
+	function back(){
+		kystr="divsn,wrd,staff,senior,age,gender,job,addr,admitDt,stdnName,famli,HN,AN,patient,tbls";
+		let xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.close();
+				document.write(this.responseText);
+			}
+		  };
+		xhttp.open("POST", "http://localhost:8000", true);
+		xhttp.setRequestHeader("Content-type", "text/plain");
+		xhttp.send(`"next":"mport.html","usrmail":"${document.getElementById("usrmail").value}","id":"${str}"`);
+	}
+	function backup(){
+			let xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					//alert(this.responseText);
+					//document.getElementById("id").value=this.responseText;
+					alert("successful insert/update operation :"+this.responseText);
+				}
+			  };
+			let CC=document.getElementById("CC").value;
+			let PI=document.getElementById("PI").value;
+			let PH=document.getElementById("PH").value;
+			let PsnH=document.getElementById("PsnH").value;
+			let HdNk=document.getElementById("HdNk").value;
+			let CVS=document.getElementById("CVS").value;
+			let RS=document.getElementById("RS").value;
+			let GI=document.getElementById("GI").value;
+			let KUB=document.getElementById("KUB").value;
+			let Repr=document.getElementById("Repr").value;
+			let musc=document.getElementById("musc").value;
+			let Neuro=document.getElementById("Neuro").value;
+			//let id=document.getElementById("id").value;
+			xhttp.open("POST", "http://localhost:8000", true);
+			xhttp.setRequestHeader("Content-type", "text/plain");
+			xhttp.send(`"CC":"${CC}","PI":"${PI}","PH":"${PH}","PsnH":"${PsnH}","HdNk":"${HdNk}","CVS":"${CVS}","RS":"${RS}","GI":"${GI}","KUB":"${KUB}","Repr":"${Repr}","musc":"${musc}","Neuro":"${Neuro}","usrmail":"${document.getElementById("usrmail").value}","idN": "${str}"`);
+		}
+</script>
+</header>
+<body style="">
+Chief Complaint<input id="CC" class="date"><br>
+Present Illness<br>
+<textarea id="PI" style="width:80%"></textarea><br>
+Past History<br>
+<textarea id="PH" style="width:80%"></textarea><br>
+Personal History<br>
+<textarea id="PsnH" style="width:80%"></textarea><br>
+Systemic Review<br>
+	<table>
+		<tr><td>head and neck</td><td style="width:75%"> <textarea id="HdNk"></textarea></td></tr>
+		<tr><td>cardiovascular system</td><td><textarea id="CVS"></textarea></td></tr>
+		<tr><td>respiratory system </td><td><textarea id="RS"></textarea></td></tr>
+		<tr><td>digestive system </td><td><textarea id="GI"></textarea></td></tr>
+		<tr><td>KUB system </td><td><textarea id="KUB"></textarea></td></tr>
+		<tr><td>reproductive system </td><td><textarea id="Repr"></textarea></td></tr>
+		<tr><td>musculoskeleton system </td><td><textarea id="musc"></textarea></td></tr>
+		<tr><td>neurological system </td><td><textarea id="Neuro"></textarea></td></tr>
+	</table>
+<div><button onclick="back()">previous</button><button onclick="backup()">save</button><button onclick="nxt()">next</button>
+</div>

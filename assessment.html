@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<header>
+	<title>assessment</title>
+<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no">
+<meta charset="UTF-8">
+<link rel="stylesheet" href="mdstdn.css"/>
+<script>
+	function tble(x, y){
+		if(x.value=="add"){
+			let tbl=x.parentElement;
+			while(tbl.tagName!="TR"){tbl=tbl.parentElement}
+			let tr=document.createElement("tr");
+			tr.innerHTML='<td><input value="'+y+'"></input></td><td><select onchange=tble(this,"")><option hidden >add/remove</option><option value="add">add</option><option value="rmv">remove</option></select></td>';
+			tbl.parentElement.insertBefore(tr,tbl.nextSibling);
+			x.selectedIndex=0;
+			return;
+		}
+		if(x.value=="addx"){
+			let tbl=x.parentElement;
+			while(tbl.tagName!="TBODY"){tbl=tbl.parentElement}
+			let tbdy=document.createElement("tbody");
+			tbdy.innerHTML='<tr><td><label></label></td><td><input value="'+y[0]+'"></input></td><td><select onchange=tble(this,"") ><option hidden>add/remove</option><option value="addx">add</option><option value="rvdx">remove</option></select></td></tr><tr><td><label>argument</label></td><td colspan="3"><textarea style="width:100%">'+y[1]+'</textarea></td></tr><tr><td><label>opponent</label></td><td colspan="3"><textarea style="width:100%">'+y[2]+'</textarea></td></tr>';
+			tbl.parentElement.insertBefore(tbdy,tbl.nextSibling);
+			x.selectedIndex=0;
+			return;
+		}
+		if(x.value=="rvdx"){
+			let tbl=x.parentElement;
+			while(tbl.tagName!="TBODY"){tbl=tbl.parentElement};
+			tbl.parentElement.removeChild(tbl);
+			x.selectedIndex=0;
+			return;
+		}
+		else{
+			let tbl=x.parentElement;
+			while(tbl.tagName!="TR"){tbl=tbl.parentElement};
+			tbl.parentElement.removeChild(tbl);
+			x.selectedIndex=0;
+		}
+	}
+	function nxt(){
+		kystr="iniPTbl";
+		let xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.close();
+				document.write(this.responseText);
+			}
+		  };
+		xhttp.open("POST", "http://localhost:8000", true);
+		xhttp.setRequestHeader("Content-type", "text/plain");
+		xhttp.send(`"next":"initialPlan.html","usrmail":"${document.getElementById("usrmail").value}","id":"${str}"`);
+	}
+
+	function back(){
+		kystr="GA,BP,PR,RR,BT,HEENT,cardiovascularEx,respiratoryEx,abdomnEx,genitourinaryEx,musculoskeletnEx,neuroexam,objTbl";
+		let xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+			if (this.readyState == 4 && this.status == 200) {
+				document.close();
+				document.write(this.responseText);
+			}
+		  };
+		xhttp.open("POST", "http://localhost:8000", true);
+		xhttp.setRequestHeader("Content-type", "text/plain");
+		xhttp.send(`"next":"objective.html","usrmail":"${document.getElementById("usrmail").value}","id":"${str}"`);
+	}
+	function backup(){
+			let xhttp = new XMLHttpRequest();
+			xhttp.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					//alert(this.responseText);
+					//document.getElementById("id").value=this.responseText;
+					alert("successful insert/update operation :"+this.responseText);
+				}
+			  };
+			let dta=[[],[],[],[],"",[]];
+			console.log(document.getElementById("pSubFinding").children);
+			let pSubFinding=document.getElementById("pSubFinding").children[0].children;//tr(s)
+			for (let i=0;i<pSubFinding.length;i++){
+				dta[0].push(pSubFinding[i].children[0].children[0].value);
+			}
+			let nSubFinding=document.getElementById("nSubFinding").children[0].children;
+			for (let i=0;i<nSubFinding.length;i++){
+				dta[1].push(nSubFinding[i].children[0].children[0].value);
+			}
+			let pObFinding=document.getElementById("pObFinding").children[0].children;
+			for (let i=0;i<pObFinding.length;i++){
+				dta[2].push(pObFinding[i].children[0].children[0].value);
+			}
+			let nObFinding=document.getElementById("nObFinding").children[0].children;
+			for (let i=0;i<nObFinding.length;i++){
+				dta[3].push(nObFinding[i].children[0].children[0].value);
+			}
+			dta[4]=document.getElementById("Dx").value;
+			let DDx=document.getElementById("DDx").children;
+			for (let i=0;i<DDx.length;i++){
+				let ddx=[];
+				let trs=DDx[i].children;
+				for (let j=0;j<trs.length;j++){
+					tds=trs[j].children;
+					for (let k=0;k<tds.length;k++){
+						if(tds[k].children[0].tagName=="INPUT" || tds[k].children[0].tagName=="TEXTAREA")ddx.push(tds[k].children[0].value)
+					}
+				}
+				dta[5].push(ddx);
+			}
+			console.log(dta);
+			
+			//let id=document.getElementById("id").value;
+			xhttp.open("POST", "http://localhost:8000", true);
+			xhttp.setRequestHeader("Content-type", "text/plain");
+			xhttp.send(`"assessTbl":"${JSON.stringify(dta).replace(/"/g,"'")}","usrmail":"${document.getElementById("usrmail").value}","idN": "${str}"`);
+		}
+	function shw(x){
+		let dta=JSON.parse(x.replace(/\n/g,"\\n").replace(/&/g,"\&"));//JSON does not allow new line character, so it is replaced with the literal one,"\\n"
+		if(!dta["assessTbl"])return;
+		dta = JSON.parse(dta["assessTbl"].replace(/'(?=[,\]])/g,'"').replace(/(?<=[,\[\s])'/g,'"').replace(/\n/g,"\\n"));
+		let tblId=["pSubFinding", "nSubFinding", "pObFinding", "nObFinding"];
+		for(let i=0;i<tblId.length;i++){
+						let dtL=dta[i].length
+			for (let j=0;j<dtL;j++){
+				let slc=document.getElementById(tblId[i]).children[0].children[document.getElementById(tblId[i]).children[0].children.length-1].children[1]
+				slc.value="add";
+				tble(slc,dta[i][j]);
+				if(j==0){
+					slc.value="rmv";
+					tble(slc,"");
+				}
+			}
+		}
+		document.getElementById("Dx").value=dta[4];
+		let DDxL=dta[5];
+		for (let i=0;i<DDxL.length;i++){
+			let slc=document.getElementById("DDx").children[document.getElementById("DDx").children.length-1].children[0].children[2];
+			slc.value="addx";
+			tble(slc,DDxL[i]);
+			if(i==0){
+				slc.value="rvdx";
+				tble(slc,"");
+			}
+		}
+		
+	}
+</script>
+</header>
+<body>
+	subjective finding<br>
+	<table>
+		<tr><td>positive</td>										<td>negative</td></tr>
+		<tr><td><table id ="pSubFinding"><tr><td><input></input></td><td><select onchange=tble(this,"") ><option hidden >add/remove</option><option value="add">add</option><option value="rmv">remove</option></select></td></tr></table></td>						<td><table id="nSubFinding"><tr><td><input></input></td><td><select onchange=tble(this,"") ><option hidden>add/remove</option><option value="add">add</option><option value="rmv">remove</option></select></tr></table></td></tr>
+	</table>
+	<br>
+	objective finding<br>
+	<table>
+		<tr><td>positive</td>										<td>negative</td></tr>
+		<tr><td><table id ="pObFinding"><tr><td><input></input></td><td><select onchange=tble(this,"") ><option hidden>add/remove</option><option value="add">add</option><option value="rmv">remove</option></select></td></tr></table></td>						<td><table id="nObFinding"><tr><td><input></input></td><td><select onchange=tble(this,"") ><option hidden>add/remove</option><option value="add">add</option><option value="rmv">remove</option></select></tr></table></td></tr>
+	</table>
+	
+<textarea id="preDx">ผู้ป่วย ชาย/หญิง ไทย คู่/โสด อายุ มาพบแพทย์ด้วยอาการ cheif complaint มีประวัติ subjective findings ตรวจร่างกายพบ objective findings จึงให้การวินิจฉัยการเจ็บป่วยของผู้ป่วยรายดังกล่าวดังนี้</textarea>
+<br>
+provisional diagnosis <input id="Dx" style="width:40%"></input><br>
+differential diagnosis
+<table id="DDx" style="width:70%">
+	<tr>
+		<td><label></label>
+		</td>
+		<td>
+			<input>
+			</input>
+		</td>
+		<td>
+			<select onchange=tble(this,["","",""])><option hidden>add/remove</option><option value="addx">add</option><option value="rvdx">remove</option></select>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<lable>
+				rule-in reasoning
+			</lable>
+		</td>
+		<td colspan="3">
+			<textarea style="width:100%"></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<label>
+				rule-out reasoning
+			<label>
+		</td>
+		<td colspan="3">
+			<textarea style="width:100%"></textarea>
+		</td>
+	</tr>
+</table>
+	
+<div><button onclick="back()">previous</button><button onclick="backup()">save</button><button onclick="nxt()">next</button>
+</div>
